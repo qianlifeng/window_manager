@@ -68,6 +68,8 @@ public class WindowManager: NSObject, NSWindowDelegate {
     private var _isPreventClose: Bool = false
     private var _isMaximized: Bool = false
     private var _isMaximizable: Bool = true
+
+    private var _prevApp: NSRunningApplication?
     
     override public init() {
         super.init()
@@ -128,6 +130,8 @@ public class WindowManager: NSObject, NSWindowDelegate {
     }
     
     public func show() {
+        _prevApp = NSWorkspace.shared.frontmostApplication
+
         mainWindow.setIsVisible(true)
         DispatchQueue.main.async {
             self.mainWindow.makeKeyAndOrderFront(nil)
@@ -138,6 +142,11 @@ public class WindowManager: NSObject, NSWindowDelegate {
     public func hide() {
         DispatchQueue.main.async {
             self.mainWindow.orderOut(nil)
+        }
+
+        if (_prevApp != nil) {
+            _prevApp?.activate(options: .activateIgnoringOtherApps)
+            _prevApp = nil
         }
     }
     

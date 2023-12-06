@@ -361,12 +361,12 @@ public class WindowManager: NSObject, NSWindowDelegate {
     }
     
     public func isAlwaysOnTop() -> Bool {
-        return mainWindow.level == .screenSaver
+        return mainWindow.level == .popUpMenu
     }
     
     public func setAlwaysOnTop(_ args: [String: Any]) {
         let isAlwaysOnTop: Bool = args["isAlwaysOnTop"] as! Bool
-        mainWindow.level = isAlwaysOnTop ? .screenSaver : .normal
+        mainWindow.level = isAlwaysOnTop ? .popUpMenu : .normal
         if (mainWindow is NSPanel) {
             mainWindow.setStyleMask(isAlwaysOnTop, .nonactivatingPanel)
         }
